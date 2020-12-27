@@ -1,27 +1,33 @@
 package com.assignments;
-import java.io.*;
+
+class UnderflowException extends Exception {
+	UnderflowException(String message) {
+		super(message);
+	}
+}
 
 public class CharStack
 {
-	private char[] m_data;           // See Note #1 below
+	private char[] m_data;
 
 	private int m_ptr;
 
 	public CharStack(int size)
 	{
-		m_ptr = 0;                   // Note #2
+		m_ptr = 0;
 		m_data = new char[(size > 1 ? size : 10)];
 	}
 
 	public void push(char c)
 	{
-		if (m_ptr >= m_data.length) // Note #3
+		if (m_ptr >= m_data.length)
 		{
 			// Grow the array automatically
 			char[] tmp =
 					new char[m_data.length * 2];
 
-			System.arraycopy(m_data, 0,
+			System.arraycopy(
+					m_data, 0,
 					tmp, 0,
 					m_data.length);
 			m_data = tmp;
@@ -29,17 +35,17 @@ public class CharStack
 		m_data[m_ptr++] = c;
 	}
 
-	public char pop()              // Note #4
+	public char pop() throws UnderflowException
 	{
-		return m_data[--m_ptr];
-	}
-	public boolean hasMoreElements()
-	{
-		return (m_ptr != 0);
+		if (m_ptr != 0) {
+			return m_data[--m_ptr];
+		}
+		else {
+			throw new UnderflowException("Stack Underflow: Empty Stack!");
+		}
 	}
 
-	// Note #5
-	public static void main(String[] argv) throws IOException
+	public static void main(String[] argv) throws Exception
 	{
 		CharStack s = new CharStack(10);
 		int i;
@@ -47,10 +53,20 @@ public class CharStack
 		{
 			s.push((char) i);
 		}
-		while (s.hasMoreElements())
+
+		try
 		{
-			System.out.write(s.pop());
+			System.out.write(s.pop());  // catch underflow exception before popping the rest of the stack
+			while (s.m_ptr > 0) {
+				System.out.write(s.pop());
+			}
+			System.out.println();
 		}
-		System.out.println();
+		catch (UnderflowException e)
+		{
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+
 	}
 }
