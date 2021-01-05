@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE DVDS SYSTEM "./dvd.dtd">
+<DVDS>
+    <DVD id="1">
+        <title>Witness</title>
+        <performers>
+            <performer>Harrison Ford</performer>
+            <performer>Kelly McGillis</performer>
+        </performers>
+        <discs>1</discs>
+        <price>7.99</price>
+        <release_year>1985</release_year>
+    </DVD>
+    <DVD id="2">
+        <title>Star Wars Episode V - The Empire Strikes Back</title>
+        <performers>
+            <performer>Mark Hamill</performer>
+            <performer>Harrison Ford</performer>
+            <performer>Carrie Fisher</performer>
+        </performers>
+        <discs>2</discs>
+        <price>14.95</price>
+        <release_year>1980</release_year>
+    </DVD>
+    <DVD id="3">
+        <title>Avengers: Endgame</title>
+        <performers>
+            <performer>Robert Downey, Jr.</performer>
+            <performer>Chris Evans</performer>
+            <performer>Chris Hemsworth</performer>
+            <performer>Scarlett Johansson</performer>
+        </performers>
+        <discs>3</discs>
+        <price>19.99</price>
+        <release_year>2019</release_year>
+    </DVD>
+    <DVD id="4">
+        <title>Titanic</title>
+        <performers>
+            <performer>Leonardo DiCaprio</performer>
+            <performer>Kate Winslet</performer>
+        </performers>
+        <discs>2</discs>
+        <price>9.99</price>
+        <release_year>1997</release_year>
+    </DVD>
+    <DVD id="5">
+        <title>Avatar</title>
+        <performers>
+            <performer>Sam Worthington</performer>
+            <performer>Zoe Saldana</performer>
+        </performers>
+        <discs>4</discs>
+        <price>12.50</price>
+        <release_year>2009</release_year>
+    </DVD>
+    <DVD id="6">
+        <title>The Last Samurai</title>
+        <performers>
+            <performer>Tom Cruise</performer>
+            <performer>Ken Watanabe</performer>
+        </performers>
+        <discs>1</discs>
+        <price>8.00</price>
+        <release_year>2003</release_year>
+    </DVD>
+    <DVD id="7">
+        <title>License To Kill</title>
+        <performers>
+            <performer>Timothy Dalton</performer>
+        </performers>
+        <discs>1</discs>
+        <price>5.95</price>
+        <release_year>1989</release_year>
+    </DVD>
+    <DVD id="8">
+        <title>Jurassic Park</title>
+        <performers>
+            <performer>Sam Neill</performer>
+            <performer>Laura Dern</performer>
+            <performer>Richard Attenborough</performer>
+        </performers>
+        <discs>3</discs>
+        <price>8.99</price>
+        <release_year>1993</release_year>
+    </DVD>
+    <DVD id="9">
+        <title>Mission: Impossible</title>
+        <performers>
+            <performer>Tom Cruise</performer>
+            <performer>Jon Voight</performer>
+            <performer>Ving Rhames</performer>
+        </performers>
+        <discs>1</discs>
+        <price>6.50</price>
+        <release_year>1996</release_year>
+    </DVD>
+    <DVD id="10">
+        <title>Inception</title>
+        <performers>
+            <performer>Leonardo DiCaprio</performer>
+            <performer>Joseph Gordon-Levitt</performer>
+            <performer>Elliot Page</performer>
+        </performers>
+        <discs>2</discs>
+        <price>12.95</price>
+        <release_year>2010</release_year>
+    </DVD>
+</DVDS>

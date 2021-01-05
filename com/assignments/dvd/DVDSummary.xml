@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<DVD>
+    <summary>
+        <count decade="1980">3</count>
+        <count decade="1990">3</count>
+        <count decade="2000">2</count>
+        <count decade="2010">2</count>
+    </summary>
+</DVD>
