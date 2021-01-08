@@ -6,3 +6,4 @@ com/basics/
 project/out/
 project/.env
 project/target/
+project/src/test/
