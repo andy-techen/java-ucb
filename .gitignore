@@ -5,3 +5,4 @@ com/basics/
 .idea/
 project/out/
 project/.env
+project/target/
