@@ -1,5 +1,3 @@
-package app;
-
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
