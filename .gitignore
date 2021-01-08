@@ -2,3 +2,5 @@
 *.pdf
 *.class
 com/basics/
+.idea/
+project/out/
