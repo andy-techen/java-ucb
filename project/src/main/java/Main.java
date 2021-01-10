@@ -1,8 +1,9 @@
 import javafx.application.Application;
 import javafx.geometry.*;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -13,6 +14,7 @@ public class Main extends Application {
     Stage window;
     Scene scene;
     ArrayList<Object> preferences_ls;
+    ArrayList<Store> store_arr;
 
     @Override
     public void start(Stage primary_stage) {
@@ -49,10 +51,11 @@ public class Main extends Application {
         search_bar.setPromptText("What to Eat?");
         search_bar.setPrefWidth(630);
         search_bar.setPrefHeight(40);
+        search_box.setAlignment(Pos.CENTER);
 
         Button search_button = new Button("Search!");
         search_button.setPrefHeight(40);
-        search_button.setPrefWidth(60);
+        search_button.setMinWidth(60);
         search_box.getChildren().addAll(search_bar, search_button);
 
         TextField location_bar = new TextField();
@@ -68,34 +71,59 @@ public class Main extends Application {
         search_pane.setAlignment(Pos.CENTER);
         layout.setCenter(search_pane);
 
-        // setting up results pane-------------------------------------------------------
-        FlowPane results_pane = new FlowPane();
-        results_pane.setPadding(new Insets(10, 10, 10, 10));
+        // setting up results box--------------------------------------------------------
+        ScrollPane results_pane = new ScrollPane();
+        VBox results_box = new VBox();
+        results_box.setPadding(new Insets(50, 75, 50, 75));
+        results_box.setSpacing(20);
+        results_box.prefWidthProperty().bind(window.widthProperty().subtract(25));
+        results_pane.setContent(results_box);
 
+        HBox results_box_top = new HBox();
+        Button return_button = new Button("Return to Search");
+        return_button.setOnMouseEntered(e -> scene.setCursor(Cursor.HAND));
+        return_button.setOnMouseExited(e -> scene.setCursor(Cursor.DEFAULT));
+        return_button.setOnAction(e -> {
+            layout.setCenter(search_pane);
+            results_box.getChildren().clear();
+        });
+        Region region = new Region();
+        HBox.setHgrow(region, Priority.ALWAYS);
+        results_box_top.getChildren().addAll(region, return_button);
+        results_box.getChildren().add(results_box_top);
+
+        search_button.setOnMouseEntered(e -> scene.setCursor(Cursor.HAND));
+        search_button.setOnMouseExited(e -> scene.setCursor(Cursor.DEFAULT));
         search_button.setOnAction(e -> {
+            scene.setCursor(Cursor.WAIT);
+            layout.setCenter(results_pane);
+
             // add mood food to search term
             String mood = mood_box.getSelectionModel().getSelectedItem().toString();
             String term = String.join("+", search_bar.getText().split(" ")) + "+" + getMoodFood(mood);
-            System.out.println(term);
+            System.out.println("Search term: " + term);
 
             // setting price according to budget
             int budget = (int) preferences_ls.get(4);
             String price = getPrice(budget);
 
-            System.out.println(price);
+            System.out.println("Budget: " + price);
 
             String location = location_bar.getText();
             int limit = (int) preferences_ls.get(5);
-            System.out.println(location);
-            System.out.println(limit);
+            System.out.println("Location: " + location);
+            System.out.println("Results: " + limit);
 
             try {
-                ArrayList<Store> results_arr = Results.search(term, location, price, limit);
+                store_arr = Results.search(term, location, price, limit);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
 
-            layout.setCenter(results_pane);
+            Label term_label = new Label("Showing " + store_arr.size() + " results for: " + term);
+            results_box_top.getChildren().add(0, term_label);
+
+            store_arr.forEach(s -> results_box.getChildren().add(storeToBox(s)));
         });
 
         scene = new Scene(layout, 800, 600);
@@ -126,6 +154,29 @@ public class Main extends Application {
             return "1,2,3";
         }
         return "1,2,3,4";
+    }
+    private HBox storeToBox(Store store) {
+        HBox store_box = new HBox();
+        store_box.setSpacing(30);
+
+        ImageView profile_image = new ImageView(new Image(store.getProfile_url()));
+        profile_image.setStyle("-fx-border-radius: 50%");
+        profile_image.setFitHeight(100);
+        profile_image.setFitWidth(100);
+        profile_image.setPreserveRatio(false);
+
+        VBox detail_box = new VBox();
+        Label name_label = new Label(store.getName());
+        name_label.getStyleClass().add("label-section");
+        Label address_label = new Label(store.getAddress());
+        Label price_label = new Label(store.getPrice());
+        Label rating_label = new Label(Integer.toString(store.getReviews()));
+        System.out.println(store.getName());
+
+        detail_box.getChildren().addAll(name_label, address_label, price_label, rating_label);
+        store_box.getChildren().addAll(profile_image, detail_box);
+
+        return store_box;
     }
 
     public static void main(String[] args) {
