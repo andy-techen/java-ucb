@@ -1,3 +1,6 @@
+.root {
+    -fx-background-color: #FFFFFF;
+}
 .button {
     -fx-background-color: #E27A7A;
     -fx-border-radius: 10%;
@@ -11,10 +14,13 @@
     -fx-text-fill: #E27A7A;
 }
 .label-section {
-    -fx-font-size: 15px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 .label-notes {
     -fx-font-size: 10px;
     -fx-text-fill: #666666;
+}
+.menu-bar {
+    -fx-background-color: #FFFFFF;
 }
