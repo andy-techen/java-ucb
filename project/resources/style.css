@@ -1,0 +1,20 @@
+.button {
+    -fx-background-color: #E27A7A;
+    -fx-border-radius: 10%;
+    -fx-background-radius: 10%;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+.label-title {
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E27A7A;
+}
+.label-section {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+.label-notes {
+    -fx-font-size: 10px;
+    -fx-text-fill: #666666;
+}
