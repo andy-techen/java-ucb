@@ -1,6 +1,7 @@
 import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -13,11 +14,13 @@ public class Preferences {
 	static ArrayList<String> happy_food, sad_food, stressed_food, fav_food;
 	static int max_price, results;
 	static ArrayList<Object> preference_ls;
+	static Scene scene;
 
 	public static ArrayList<Object> display() {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Preferences");
+		window.getIcons().add(new Image("file:resources/logo.png"));
 
 		VBox full_layout = new VBox();
 		full_layout.setAlignment(Pos.TOP_LEFT);
@@ -31,6 +34,7 @@ public class Preferences {
 		food_pane.setPadding(new Insets(0, 0, 30, 0));
 
 		Label food_label = new Label("Food Preferences");
+		food_label.getStyleClass().add("label-section");
 
 		Label happy_label = new Label("Food for Happy Mood :)");
 		GridPane.setConstraints(happy_label, 0, 1);
@@ -56,6 +60,10 @@ public class Preferences {
 		fav_input.setPrefWidth(250);
 		GridPane.setConstraints(fav_input, 1, 4);
 
+		Label notes = new Label("* Separate food with comma!");
+		GridPane.setConstraints(notes, 1, 0);
+		notes.getStyleClass().add("label-notes");
+
 		// other preferences-------------------------------------------------
 		GridPane other_pane = new GridPane();
 		other_pane.setHgap(20);
@@ -63,6 +71,7 @@ public class Preferences {
 		other_pane.setPadding(new Insets(10, 0, 30, 0));
 
 		Label other_label = new Label("Other Preferences");
+		other_label.getStyleClass().add("label-section");
 
 		Label price_label = new Label("My Budget $$$ (USD)");
 		price_label.setPrefWidth(160);
@@ -98,6 +107,7 @@ public class Preferences {
 			max_price = (int) price_slider.getValue();  //  $ = under $10. $$ = 11-30. $$$ = 31-60. $$$$ = over $61
 			results = (int) results_box.getValue();
 			Collections.addAll(preference_ls, happy_food, sad_food, stressed_food, fav_food, max_price, results);
+			window.close();
 		});
 		reset_button.setOnAction(e -> {
 			preference_ls = null;
@@ -111,14 +121,16 @@ public class Preferences {
 
 		food_pane.getChildren().addAll(
 				happy_label, happy_input, sad_label, sad_input,
-				stressed_label, stressed_input, fav_label, fav_input);
+				stressed_label, stressed_input, fav_label, fav_input, notes);
 		other_pane.getChildren().addAll(
 				price_label, price_slider,
 				results_label, results_box);
 		button_hBox.getChildren().addAll(submit_button, reset_button);
 		full_layout.getChildren().addAll(food_label, new Separator(), food_pane, other_label, new Separator(), other_pane, button_hBox);
 
-		window.setScene(new Scene(full_layout, 500, 460));
+		scene = new Scene(full_layout, 500, 500);
+		scene.getStylesheets().add("file:resources/style.css");
+		window.setScene(scene);
 		window.showAndWait();
 
 		return preference_ls;
