@@ -10,9 +10,9 @@ import org.json.*;
 public class Results {
 	static Dotenv env = Dotenv.load();
 
-	public static String build_url(String term, String location, int limit) {
-		String yelp_api = "https://api.yelp.com/v3/businesses/search?term={0}&location={1}&limit={2}&open_now=true";
-		String search_url = MessageFormat.format(yelp_api, term, location, limit);
+	public static String build_url(String term, String location, String price, int limit) {
+		String yelp_api = "https://api.yelp.com/v3/businesses/search?term={0}&location={1}&price={2}&limit={3}&open_now=true";
+		String search_url = MessageFormat.format(yelp_api, term, location, price, limit);
 
 		return search_url;
 	}
@@ -61,8 +61,8 @@ public class Results {
 		return results_json;
 	}
 
-	public static ArrayList<Store> search(String term, String location, int limit) throws IOException {
-		String search_url = build_url(term, location, limit);
+	public static ArrayList<Store> search(String term, String location, String price, int limit) throws IOException {
+		String search_url = build_url(term, location, price, limit);
 
 		// setting up connection
 		URL url = new URL(search_url);
