@@ -1,4 +1,5 @@
 import javafx.geometry.*;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
@@ -39,28 +40,32 @@ public class Preferences {
 		Label happy_label = new Label("Food for Happy Mood :)");
 		GridPane.setConstraints(happy_label, 0, 1);
 		TextField happy_input = new TextField();
+		happy_input.setText("cookies");
 		happy_input.setPrefWidth(250);
 		GridPane.setConstraints(happy_input, 1, 1);
 
 		Label sad_label = new Label("Food for Sad Mood :(");
 		GridPane.setConstraints(sad_label, 0, 2);
 		TextField sad_input = new TextField();
+		sad_input.setText("chocolate");
 		sad_input.setPrefWidth(250);
 		GridPane.setConstraints(sad_input, 1, 2);
 
 		Label stressed_label = new Label("Food for Stressed Mood :/");
 		GridPane.setConstraints(stressed_label, 0, 3);
 		TextField stressed_input = new TextField();
+		stressed_input.setText("cake");
 		stressed_input.setPrefWidth(250);
 		GridPane.setConstraints(stressed_input, 1, 3);
 
 		Label fav_label = new Label("Food for Any Kind of Mood :D");
 		GridPane.setConstraints(fav_label, 0, 4);
 		TextField fav_input = new TextField();
+		fav_input.setText("mango");
 		fav_input.setPrefWidth(250);
 		GridPane.setConstraints(fav_input, 1, 4);
 
-		Label notes = new Label("* Separate food with comma!");
+		Label notes = new Label("* Separate food with comma or space!");
 		GridPane.setConstraints(notes, 1, 0);
 		notes.getStyleClass().add("label-notes");
 
@@ -76,7 +81,7 @@ public class Preferences {
 		Label price_label = new Label("My Budget $$$ (USD)");
 		price_label.setPrefWidth(160);
 		GridPane.setConstraints(price_label, 0, 0);
-		Slider price_slider = new Slider(0, 80, 0);
+		Slider price_slider = new Slider(0, 80, 5);
 		price_slider.setMajorTickUnit(10);
 		price_slider.setMinorTickCount(1);
 		price_slider.setPrefWidth(250);
@@ -99,11 +104,16 @@ public class Preferences {
 		Button submit_button = new Button("All Done!");
 		Button reset_button = new Button("Reset!");
 		preference_ls = new ArrayList<>();
+		submit_button.setOnMouseEntered(e -> scene.setCursor(Cursor.HAND));
+		submit_button.setOnMouseExited(e -> scene.setCursor(Cursor.DEFAULT));
+		reset_button.setOnMouseEntered(e -> scene.setCursor(Cursor.HAND));
+		reset_button.setOnMouseExited(e -> scene.setCursor(Cursor.DEFAULT));
+
 		submit_button.setOnAction(e -> {
-			happy_food = new ArrayList<>(Arrays.asList(happy_input.getText().split(",")));
-			sad_food = new ArrayList<>(Arrays.asList(sad_input.getText().split(",")));
-			stressed_food = new ArrayList<>(Arrays.asList(stressed_input.getText().split(",")));
-			fav_food = new ArrayList<>(Arrays.asList(fav_input.getText().split(",")));
+			happy_food = new ArrayList<>(Arrays.asList(happy_input.getText().split("[ ,]+")));
+			sad_food = new ArrayList<>(Arrays.asList(sad_input.getText().split("[ ,]+")));
+			stressed_food = new ArrayList<>(Arrays.asList(stressed_input.getText().split("[ ,]+")));
+			fav_food = new ArrayList<>(Arrays.asList(fav_input.getText().split("[ ,]+")));
 			max_price = (int) price_slider.getValue();  //  $ = under $10. $$ = 11-30. $$$ = 31-60. $$$$ = over $61
 			results = (int) results_box.getValue();
 			Collections.addAll(preference_ls, happy_food, sad_food, stressed_food, fav_food, max_price, results);
@@ -115,7 +125,7 @@ public class Preferences {
 			sad_input.clear();
 			stressed_input.clear();
 			fav_input.clear();
-			price_slider.setValue(0);
+			price_slider.setValue(5);
 			results_box.setValue(10);
 		});
 
