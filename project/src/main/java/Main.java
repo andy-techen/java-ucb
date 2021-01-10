@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -95,35 +96,49 @@ public class Main extends Application {
         search_button.setOnMouseEntered(e -> scene.setCursor(Cursor.HAND));
         search_button.setOnMouseExited(e -> scene.setCursor(Cursor.DEFAULT));
         search_button.setOnAction(e -> {
+            Task<Void> search_task = new Task<Void>() {
+                @Override
+                protected Void call() {
+                    // add mood food to search term
+                    String mood = mood_box.getSelectionModel().getSelectedItem().toString();
+                    String term = String.join("+", search_bar.getText().split(" ")) + "+" + getMoodFood(mood);
+                    System.out.println("Search term: " + term);
+
+                    // setting price according to budget
+                    int budget = (int) preferences_ls.get(4);
+                    String price = getPrice(budget);
+
+                    System.out.println("Budget: " + price);
+
+                    String location = location_bar.getText();
+                    int limit = (int) preferences_ls.get(5);
+                    System.out.println("Location: " + location);
+                    System.out.println("Results: " + limit);
+
+                    try {
+                        store_arr = Results.search(term, location, price, limit);
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+
+                    Label term_label = new Label("Showing " + store_arr.size() + " results for: " + term);
+                    results_box_top.getChildren().add(0, term_label);
+
+                    store_arr.forEach(s -> results_box.getChildren().add(storeToBox(s)));
+
+                    return null;
+                }
+            };
+            search_task.setOnSucceeded(t -> {
+                scene.setCursor(Cursor.DEFAULT);
+                layout.setCenter(results_pane);
+            });
+            search_task.setOnFailed(t -> scene.setCursor(Cursor.DEFAULT));
+
             scene.setCursor(Cursor.WAIT);
-            layout.setCenter(results_pane);
-
-            // add mood food to search term
-            String mood = mood_box.getSelectionModel().getSelectedItem().toString();
-            String term = String.join("+", search_bar.getText().split(" ")) + "+" + getMoodFood(mood);
-            System.out.println("Search term: " + term);
-
-            // setting price according to budget
-            int budget = (int) preferences_ls.get(4);
-            String price = getPrice(budget);
-
-            System.out.println("Budget: " + price);
-
-            String location = location_bar.getText();
-            int limit = (int) preferences_ls.get(5);
-            System.out.println("Location: " + location);
-            System.out.println("Results: " + limit);
-
-            try {
-                store_arr = Results.search(term, location, price, limit);
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-
-            Label term_label = new Label("Showing " + store_arr.size() + " results for: " + term);
-            results_box_top.getChildren().add(0, term_label);
-
-            store_arr.forEach(s -> results_box.getChildren().add(storeToBox(s)));
+            Thread th = new Thread(search_task);
+            th.setDaemon(true);
+            th.start();
         });
 
         scene = new Scene(layout, 800, 600);
