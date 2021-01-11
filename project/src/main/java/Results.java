@@ -14,6 +14,7 @@ public class Results {
 
 		return search_url;
 	}
+
 	private static JsonArray extract_json(String results) {
 		JsonObject full_json_obj = new Gson().fromJson(results, JsonObject.class);
 		JsonArray full_json_arr = full_json_obj.getAsJsonArray("businesses");
