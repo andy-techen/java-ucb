@@ -1,4 +1,3 @@
-import com.sun.javafx.geom.Rectangle;
 import javafx.application.Application;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -27,7 +26,7 @@ public class Main extends Application {
 		window.setTitle("FoodMood");
 		window.getIcons().add(new Image(getClass().getResource("logo.png").toExternalForm()));
 
-		// setting up layout-------------------------------------------------------------
+		// setting up search page layout----------------------------------------------------
 		BorderPane layout = new BorderPane();
 
 		// menu bar
@@ -79,7 +78,7 @@ public class Main extends Application {
 		search_pane.setAlignment(Pos.CENTER);
 		layout.setCenter(search_pane);
 
-		// setting up results box--------------------------------------------------------
+		// setting up results box-----------------------------------------------------------
 		ScrollPane results_pane = new ScrollPane();
 		VBox results_box = new VBox();
 		results_box.setPadding(new Insets(50, 75, 50, 75));
@@ -100,6 +99,7 @@ public class Main extends Application {
 		Region region = new Region();
 		HBox.setHgrow(region, Priority.ALWAYS);
 
+		// Set up service and background thread for search tasks
 		Service<Void> search_service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
@@ -107,9 +107,9 @@ public class Main extends Application {
 				return new Task<Void>() {
 					@Override
 					protected Void call() {
-						System.out.println("Calling Task");
 						try {
 							store_arr = Results.search(final_term, final_location, final_price, final_limit);
+							System.out.println("Calling Task");
 						} catch (IOException ioe) {
 							System.out.println(ioe);
 						}
@@ -154,17 +154,16 @@ public class Main extends Application {
 				// setting price according to budget
 				int budget = (int) preferences_ls.get(4);
 				price = getPrice(budget);
-
 				System.out.println("Budget: " + price);
 
 				location = location_bar.getText();
 				limit = (int) preferences_ls.get(5);
 				System.out.println("Location: " + location);
 				System.out.println("Max Results: " + limit);
-			} catch (Exception ex) {
+			} catch (Exception ex) {    // IndexOutOfBoundsException, IOException
 				System.out.println(ex);
-				Alert.display();
-				e.consume();
+				Alert.display();    // preferences haven't been set
+				e.consume();    // break event handler
 			}
 
 			final_term = term;
@@ -173,10 +172,7 @@ public class Main extends Application {
 			final_limit = limit;
 
 			scene.setCursor(Cursor.WAIT);
-			if (!search_service.isRunning()) {
-				search_service.reset();
-				search_service.start();
-			}
+			search_service.restart();
 		});
 
 		scene = new Scene(layout, 800, 600);
@@ -194,12 +190,13 @@ public class Main extends Application {
 				return String.join("+", (ArrayList) preferences_ls.get(1));
 			case "I'm Feeling Stressed :/":
 				return String.join("+", (ArrayList) preferences_ls.get(2));
-			default:
+			default:    // I'm Feeling Lucky :D
 				return String.join("+", (ArrayList) preferences_ls.get(3));
 		}
 	}
 
 	private String getPrice(int budget) {
+		// price range based on yelp settings
 		if (budget <= 10) {
 			return "1";
 		} else if (budget <= 30) {
@@ -269,10 +266,10 @@ public class Main extends Application {
 			star.setPreserveRatio(true);
 			rating_box.getChildren().add(star);
 		}
-		// cropping partial star
-		double rating_float = rating - (int) rating;
-		if (rating_float > 0) {
-			ImageView star_par = cropImageLeft(star_orig, rating_float, 12 * rating_float, 12);
+		// cropping star based on decimal
+		double rating_decimal = rating - (int) rating;
+		if (rating_decimal > 0) {
+			ImageView star_par = cropImageLeft(star_orig, rating_decimal, 12 * rating_decimal, 12);
 			rating_box.getChildren().add(star_par);
 		}
 		return rating_box;
@@ -285,6 +282,7 @@ public class Main extends Application {
 		double min = (w < h) ? w : h;
 		double x, y;
 
+		// setting up coordinates according to image orientation
 		if (w < h) {
 			x = 0;
 			y = (h - w) / 2;
