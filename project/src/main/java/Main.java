@@ -1,3 +1,4 @@
+import com.sun.javafx.geom.Rectangle;
 import javafx.application.Application;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -102,11 +103,11 @@ public class Main extends Application {
 		Service<Void> search_service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
-			    System.out.println("Creating Task");
+				System.out.println("Creating Task");
 				return new Task<Void>() {
 					@Override
 					protected Void call() {
-					    System.out.println("Calling Task");
+						System.out.println("Calling Task");
 						try {
 							store_arr = Results.search(final_term, final_location, final_price, final_limit);
 						} catch (IOException ioe) {
@@ -213,11 +214,8 @@ public class Main extends Application {
 		HBox store_box = new HBox();
 		store_box.setSpacing(30);
 
-		ImageView profile_image = new ImageView(new Image(store.getProfile_url()));
-		profile_image.setStyle("-fx-border-radius: 50%");
-		profile_image.setFitHeight(100);
-		profile_image.setFitWidth(100);
-		profile_image.setPreserveRatio(false);
+		Image profile_image_orig = new Image(store.getProfile_url());
+		ImageView profile_image = cropImageCenter(profile_image_orig, 100, 100);
 
 		VBox detail_box = new VBox();
 		detail_box.setSpacing(5);
@@ -227,17 +225,19 @@ public class Main extends Application {
 		address_label.getStyleClass().add("label-address");
 
 		HBox cat_price_box = new HBox();
-		cat_price_box.setSpacing(5);
+		cat_price_box.setSpacing(6);
 		ArrayList<String> categories_ls = store.getCategories();
 		HBox cat_box = addCategory(categories_ls);
 		Label price_label = new Label(store.getPrice());
 		cat_price_box.getChildren().addAll(cat_box, price_label);
 
 		HBox rating_review_box = new HBox();
-		rating_review_box.setSpacing(5);
+		rating_review_box.setSpacing(6);
+		HBox rating_box = addRating(store.getRating());
 		Label review_label = new Label(store.getReviews() + " reviews");
-		rating_review_box.getChildren().addAll(review_label);
-		System.out.println(store.getName());
+		rating_review_box.getChildren().addAll(rating_box, review_label);
+		System.out.println(store.getName() + store.getRating());
+		rating_review_box.setAlignment(Pos.BASELINE_LEFT);
 
 		detail_box.getChildren().addAll(name_label, cat_price_box, rating_review_box, address_label);
 		store_box.getChildren().addAll(profile_image, detail_box);
@@ -256,6 +256,67 @@ public class Main extends Application {
 		}
 
 		return cat_box;
+	}
+
+	private HBox addRating(double rating) {
+		HBox rating_box = new HBox();
+		rating_box.setSpacing(1);
+
+		Image star_orig = new Image(getClass().getResource("star.png").toExternalForm());
+		for (int i = 0; i < rating; i++) {
+			ImageView star = new ImageView(star_orig);
+			star.setFitHeight(12);
+			star.setPreserveRatio(true);
+			rating_box.getChildren().add(star);
+		}
+		// cropping partial star
+		double rating_float = rating - (int) rating;
+		if (rating_float > 0) {
+			ImageView star_par = cropImageLeft(star_orig, rating_float, 12 * rating_float, 12);
+			rating_box.getChildren().add(star_par);
+		}
+		return rating_box;
+	}
+
+	private ImageView cropImageCenter(Image image, double width, double height) {
+		Rectangle2D mask;
+		double w = image.getWidth();
+		double h = image.getHeight();
+		double min = (w < h) ? w : h;
+		double x, y;
+
+		if (w < h) {
+			x = 0;
+			y = (h - w) / 2;
+		} else {
+			x = (w - h) / 2;
+			y = 0;
+		}
+		mask = new Rectangle2D(x, y, min, min);
+
+		ImageView image_cropped = new ImageView(image);
+		image_cropped.setViewport(mask);
+		image_cropped.setFitWidth(width);
+		image_cropped.setFitHeight(height);
+		image_cropped.setPreserveRatio(true);
+
+		return image_cropped;
+	}
+
+	private ImageView cropImageLeft(Image image, double pct, double width, double height) {
+		Rectangle2D mask;
+		double w = image.getWidth();
+		double h = image.getHeight();
+
+		mask = new Rectangle2D(0, 0, w * pct, h);
+
+		ImageView image_cropped = new ImageView(image);
+		image_cropped.setViewport(mask);
+		image_cropped.setFitWidth(width);
+		image_cropped.setFitHeight(height);
+		image_cropped.setPreserveRatio(true);
+
+		return image_cropped;
 	}
 
 	public static void main(String[] args) {
