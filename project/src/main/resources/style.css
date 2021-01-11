@@ -1,0 +1,59 @@
+@font-face{
+    src: url("NotoSansCJKtc-Regular.otf");
+}
+@font-face{
+    src: url("NotoSansCJKtc-Bold.otf");
+}
+.root {
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: "Noto Sans CJK TC Regular";
+}
+.box-search {
+    -fx-padding: 0 0 15 0;
+}
+.button {
+    -fx-background-color: #E27A7A;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-font-family: "Noto Sans CJK TC Bold";
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 0 5 0 5;
+}
+.choice-box {
+    -fx-background-color: #FFFFFF;
+}
+.label-address {
+    -fx-font-size: 10px;
+    -fx-text-fill: #666666;
+}
+.label-category {
+    -fx-background-color: #477890;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-font-family: "Noto Sans CJK TC Bold";
+    -fx-font-size: 10px;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 2 6 2 6;
+}
+.label-title {
+    -fx-font-family: "Noto Sans CJK TC Bold";
+    -fx-font-size: 40px;
+    -fx-text-fill: #E27A7A;
+    -fx-padding: 0 0 15 0;
+}
+.label-section {
+    -fx-font-size: 15px;
+    -fx-font-family: "Noto Sans CJK TC Bold";
+    -fx-padding: 0 0 5 0;
+}
+.menu-bar {
+    -fx-background-color: #FFFFFF;
+}
+.scroll-pane {
+    -fx-background: #FFFFFF;
+    -fx-border-color: #FFFFFF;
+}
+.text-notes {
+    -fx-font-size: 10px;
+    -fx-fill: #666666;
+}
