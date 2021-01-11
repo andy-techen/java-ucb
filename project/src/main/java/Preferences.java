@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -21,12 +22,12 @@ public class Preferences {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Preferences");
-		window.getIcons().add(new Image("file:resources/logo.png"));
+		window.getIcons().add(new Image(Preferences.class.getResource("logo.png").toExternalForm()));
 
-		VBox full_layout = new VBox();
-		full_layout.setAlignment(Pos.TOP_LEFT);
-		full_layout.setPadding(new Insets(30, 30, 30, 30));
-		full_layout.setSpacing(5);
+		VBox layout = new VBox();
+		layout.setAlignment(Pos.TOP_LEFT);
+		layout.setPadding(new Insets(30, 30, 30, 30));
+		layout.setSpacing(5);
 
 		// food preferences--------------------------------------------------
 		GridPane food_pane = new GridPane();
@@ -65,9 +66,9 @@ public class Preferences {
 		fav_input.setPrefWidth(250);
 		GridPane.setConstraints(fav_input, 1, 4);
 
-		Label notes = new Label("* Separate food with comma or space!");
-		GridPane.setConstraints(notes, 1, 0);
-		notes.getStyleClass().add("label-notes");
+		Text notes_text = new Text("* Separate food with comma or space!");
+		GridPane.setConstraints(notes_text, 1, 0);
+		notes_text.getStyleClass().add("text-notes");
 
 		// other preferences-------------------------------------------------
 		GridPane other_pane = new GridPane();
@@ -103,6 +104,11 @@ public class Preferences {
 		button_hBox.setSpacing(10);
 		Button submit_button = new Button("All Done!");
 		Button reset_button = new Button("Reset!");
+		submit_button.setPrefHeight(30);
+		submit_button.setMinWidth(80);
+		reset_button.setPrefHeight(30);
+		reset_button.setMinWidth(60);
+
 		preference_ls = new ArrayList<>();
 		submit_button.setOnMouseEntered(e -> scene.setCursor(Cursor.HAND));
 		submit_button.setOnMouseExited(e -> scene.setCursor(Cursor.DEFAULT));
@@ -130,16 +136,16 @@ public class Preferences {
 		});
 
 		food_pane.getChildren().addAll(
-				happy_label, happy_input, sad_label, sad_input,
-				stressed_label, stressed_input, fav_label, fav_input, notes);
+				notes_text, happy_label, happy_input, sad_label, sad_input,
+				stressed_label, stressed_input, fav_label, fav_input);
 		other_pane.getChildren().addAll(
 				price_label, price_slider,
 				results_label, results_box);
 		button_hBox.getChildren().addAll(submit_button, reset_button);
-		full_layout.getChildren().addAll(food_label, new Separator(), food_pane, other_label, new Separator(), other_pane, button_hBox);
+		layout.getChildren().addAll(food_label, new Separator(), food_pane, other_label, new Separator(), other_pane, button_hBox);
 
-		scene = new Scene(full_layout, 500, 500);
-		scene.getStylesheets().add("file:resources/style.css");
+		scene = new Scene(layout, 500, 500);
+		scene.getStylesheets().add(Preferences.class.getResource("style.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 
