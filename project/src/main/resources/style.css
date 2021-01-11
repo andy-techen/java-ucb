@@ -53,6 +53,9 @@
     -fx-background: #FFFFFF;
     -fx-border-color: #FFFFFF;
 }
+.text-flow {
+    -fx-padding: 0 0 8 0;
+}
 .text-notes {
     -fx-font-size: 10px;
     -fx-fill: #666666;
