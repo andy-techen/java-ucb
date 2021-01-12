@@ -25,6 +25,7 @@ public class Results {
 			JsonObject store = new JsonObject();
 
 			store.addProperty("name", store_full.get("name").getAsString());
+			store.addProperty("url", store_full.get("url").getAsString());
 			store.addProperty("rating", store_full.get("rating").getAsDouble());
 			store.addProperty("reviews", store_full.get("review_count").getAsInt());
 
@@ -88,10 +89,10 @@ public class Results {
 			JsonObject store = results_json.get(i).getAsJsonObject();
 			store_arr.add(
 					new Store(
-							store.get("name").getAsString(), store.get("address").getAsString(),
-							store.get("price").getAsString(), store.get("profile_url").getAsString(),
-							new Gson().fromJson(store.get("categories"), ArrayList.class), store.get("rating").getAsDouble(),
-							store.get("reviews").getAsInt()
+							store.get("name").getAsString(), store.get("url").getAsString(),
+							store.get("address").getAsString(), store.get("price").getAsString(),
+							store.get("profile_url").getAsString(), new Gson().fromJson(store.get("categories"), ArrayList.class),
+							store.get("rating").getAsDouble(), store.get("reviews").getAsInt()
 					)
 			);
 		}
