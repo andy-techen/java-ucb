@@ -6,7 +6,6 @@ import java.text.MessageFormat;
 import java.util.*;
 
 import com.google.gson.*;
-import io.github.cdimascio.dotenv.Dotenv;
 
 public class Results {
 	public static String build_url(String term, String location, String price, int limit) {
@@ -68,8 +67,7 @@ public class Results {
 		// setting up connection
 		URL url = new URL(search_url);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		Dotenv env = Dotenv.load();
-		conn.setRequestProperty("Authorization", "Bearer " + env.get("YELP_API_KEY"));
+		conn.setRequestProperty("Authorization", "Bearer " + env.YELP_API_KEY);  // set
 		conn.setRequestProperty("Content-Type", "application/json");
 		conn.setRequestMethod("GET");
 
