@@ -21,7 +21,7 @@ public class About {
 		layout.setPadding(new Insets(20, 20, 20, 20));
 		layout.setSpacing(5);
 
-		Text about_title = new Text("About This Project");
+		Label about_title = new Label("About This Project");
 		about_title.getStyleClass().add("label-section");
 		TextFlow about_flow = new TextFlow();
 		about_flow.getStyleClass().add("text-flow");
@@ -34,7 +34,7 @@ public class About {
 		);
 		about_flow.getChildren().add(about_description);
 
-		Text ucb_title = new Text("About Java: Discovering Its Power");
+		Label ucb_title = new Label("About Java: Discovering Its Power");
 		ucb_title.getStyleClass().add("label-section");
 		TextFlow ucb_flow = new TextFlow();
 		ucb_flow.getStyleClass().add("text-flow");
@@ -50,10 +50,9 @@ public class About {
 
 		layout.getChildren().addAll(about_title, about_flow, new Separator(), ucb_title, ucb_flow);
 
-		scene = new Scene(layout, 500, 300);
+		scene = new Scene(layout, 500, 310);
 		scene.getStylesheets().add(About.class.getResource("style.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 	}
 }
-
