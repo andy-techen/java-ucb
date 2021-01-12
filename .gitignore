@@ -3,6 +3,6 @@
 *.class
 com/basics/
 .idea/
-project/.env
+env.java
 project/target/
 project/src/test/
