@@ -50,7 +50,7 @@ public class About {
 
 		layout.getChildren().addAll(about_title, about_flow, new Separator(), ucb_title, ucb_flow);
 
-		scene = new Scene(layout, 500, 310);
+		scene = new Scene(layout, 410, 350);
 		scene.getStylesheets().add(About.class.getResource("style.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
