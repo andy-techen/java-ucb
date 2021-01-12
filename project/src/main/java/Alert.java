@@ -15,7 +15,7 @@ public class Alert {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle("Preferences Not Set!");
-		window.getIcons().add(new Image("file:resources/logo.png"));
+		window.getIcons().add(new Image(Alert.class.getResource("logo.png").toExternalForm()));
 
 		VBox layout = new VBox();
 		layout.setAlignment(Pos.CENTER);
@@ -36,7 +36,7 @@ public class Alert {
 		layout.getChildren().addAll(alert_text, alert_button);
 
 		scene = new Scene(layout, 280, 150);
-		scene.getStylesheets().add("file:resources/style.css");
+		scene.getStylesheets().add(Alert.class.getResource("style.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 	}
