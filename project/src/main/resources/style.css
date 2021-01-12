@@ -19,11 +19,15 @@
     -fx-text-fill: #FFFFFF;
     -fx-padding: 0 5 0 5;
 }
-.button-icon {
+.button-trans {
     -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 .choice-box {
     -fx-background-color: #FFFFFF;
+}
+.hyperlink {
+    -fx-underline: false;
 }
 .label-address {
     -fx-font-size: 10px;
