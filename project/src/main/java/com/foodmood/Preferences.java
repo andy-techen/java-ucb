@@ -10,9 +10,7 @@ import javafx.scene.text.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 public class Preferences {
 	static ArrayList<String> happy_food, sad_food, stressed_food, fav_food;
