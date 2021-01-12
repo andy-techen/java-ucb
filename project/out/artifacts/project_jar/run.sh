@@ -1,0 +1,1 @@
+java.exe --module-path $JAVAFX_HOME/lib --add-modules javafx.controls,java.desktop -jar project.jar
