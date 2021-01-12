@@ -1,6 +1,5 @@
 import javafx.application.Application;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
+import javafx.concurrent.*;
 import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -9,7 +8,9 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.*;
 import java.util.*;
 
 public class Main extends Application {
@@ -213,11 +214,13 @@ public class Main extends Application {
 
 		Image profile_image_orig = new Image(store.getProfile_url());
 		ImageView profile_image = cropImageCenter(profile_image_orig, 100, 100);
+		profile_image.setSmooth(true);
 
 		VBox detail_box = new VBox();
 		detail_box.setSpacing(5);
-		Label name_label = new Label(store.getName());
-		name_label.getStyleClass().add("label-section");
+		Hyperlink name_label = new Hyperlink(store.getName());
+		name_label.getStyleClass().addAll("label-section", "button-trans");
+		name_label.setOnAction(e -> openBrowser(store.getUrl()));
 		Label address_label = new Label(store.getAddress());
 		address_label.getStyleClass().add("label-address");
 
@@ -233,7 +236,7 @@ public class Main extends Application {
 		HBox rating_box = addRating(store.getRating());
 		Label review_label = new Label(store.getReviews() + " reviews");
 		rating_review_box.getChildren().addAll(rating_box, review_label);
-		System.out.println(store.getName() + store.getRating());
+		System.out.println(store.getName());
 		rating_review_box.setAlignment(Pos.BASELINE_LEFT);
 
 		detail_box.getChildren().addAll(name_label, cat_price_box, rating_review_box, address_label);
@@ -260,8 +263,9 @@ public class Main extends Application {
 		rating_box.setSpacing(1);
 
 		Image star_orig = new Image(getClass().getResource("star.png").toExternalForm());
-		for (int i = 0; i < rating; i++) {
+		for (int i = 0; i < (int) rating; i++) {
 			ImageView star = new ImageView(star_orig);
+			star.setSmooth(true);
 			star.setFitHeight(12);
 			star.setPreserveRatio(true);
 			rating_box.getChildren().add(star);
@@ -270,6 +274,7 @@ public class Main extends Application {
 		double rating_decimal = rating - (int) rating;
 		if (rating_decimal > 0) {
 			ImageView star_par = cropImageLeft(star_orig, rating_decimal, 12 * rating_decimal, 12);
+			star_par.setSmooth(true);
 			rating_box.getChildren().add(star_par);
 		}
 		return rating_box;
@@ -315,6 +320,16 @@ public class Main extends Application {
 		image_cropped.setPreserveRatio(true);
 
 		return image_cropped;
+	}
+
+	public static void openBrowser(String url) {
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
+		} catch (URISyntaxException uriSyntaxException) {
+			uriSyntaxException.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
