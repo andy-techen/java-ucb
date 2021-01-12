@@ -1,20 +1,13 @@
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
+import javafx.geometry.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.*;
 
 public class Docs {
 	static Scene scene;
@@ -60,7 +53,7 @@ public class Docs {
 		github_icon.setFitHeight(25);
 		github_icon.setPreserveRatio(true);
 		github_button.setGraphic(github_icon);
-		github_button.getStyleClass().add("button-icon");
+		github_button.getStyleClass().add("button-trans");
 		github_button.setOnMouseEntered(e -> {
 			github_button.setEffect(gray);
 			scene.setCursor(Cursor.HAND);
@@ -69,15 +62,7 @@ public class Docs {
 			github_button.setEffect(null);
 			scene.setCursor(Cursor.DEFAULT);
 		});
-		github_button.setOnAction(e -> {
-			try {
-				Desktop.getDesktop().browse(new URI("https://github.com/andy-techen/java-ucb"));
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			} catch (URISyntaxException uriSyntaxException) {
-				uriSyntaxException.printStackTrace();
-			}
-		});
+		github_button.setOnAction(e -> Main.openBrowser("https://github.com/andy-techen/java-ucb"));
 
 		Label java_label = new Label("JavaFX:");
 		Button java_button = new Button();
@@ -86,7 +71,7 @@ public class Docs {
 		java_icon.setFitHeight(25);
 		java_icon.setPreserveRatio(true);
 		java_button.setGraphic(java_icon);
-		java_button.getStyleClass().add("button-icon");
+		java_button.getStyleClass().add("button-trans");
 		java_button.setOnMouseEntered(e -> {
 			java_button.setEffect(gray);
 			scene.setCursor(Cursor.HAND);
@@ -95,15 +80,7 @@ public class Docs {
 			java_button.setEffect(null);
 			scene.setCursor(Cursor.DEFAULT);
 		});
-		java_button.setOnAction(e -> {
-			try {
-				Desktop.getDesktop().browse(new URI("https://openjfx.io/"));
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			} catch (URISyntaxException uriSyntaxException) {
-				uriSyntaxException.printStackTrace();
-			}
-		});
+		java_button.setOnAction(e -> Main.openBrowser("https://openjfx.io/"));
 
 		href_box.getChildren().addAll(region, github_label, github_button, java_label, java_button);
 
