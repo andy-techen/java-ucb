@@ -19,6 +19,9 @@
     -fx-text-fill: #FFFFFF;
     -fx-padding: 0 5 0 5;
 }
+.button-icon {
+    -fx-background-color: transparent;
+}
 .choice-box {
     -fx-background-color: #FFFFFF;
 }
@@ -44,7 +47,8 @@
 .label-section {
     -fx-font-size: 15px;
     -fx-font-family: "Noto Sans CJK TC Bold";
-    -fx-padding: 0 0 4 0;
+    -fx-text-fill: #E27A7A;
+    -fx-padding: 0 0 2 0;
 }
 .menu-bar {
     -fx-background-color: #FFFFFF;
