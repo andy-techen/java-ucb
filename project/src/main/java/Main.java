@@ -56,7 +56,7 @@ public class Main extends Application {
 		search_box.setSpacing(10);
 		TextField search_bar = new TextField();
 		search_bar.setPromptText("What to Eat?");
-		search_bar.setPrefWidth(620);
+		search_bar.setPrefWidth(600);
 		search_bar.setPrefHeight(40);
 		search_box.setAlignment(Pos.CENTER);
 		search_box.getStyleClass().add("box-search");
@@ -96,21 +96,20 @@ public class Main extends Application {
 		return_button.setOnAction(e -> {
 			layout.setCenter(search_pane);
 			results_box.getChildren().clear();
+			results_box_top.getChildren().clear();
 		});
 		Region region = new Region();
 		HBox.setHgrow(region, Priority.ALWAYS);
 
 		// Set up service and background thread for search tasks
-		Service<Void> search_service = new Service<Void>() {
+		final Service<Void> search_service = new Service<Void>() {
 			@Override
 			protected Task<Void> createTask() {
-				System.out.println("Creating Task");
 				return new Task<Void>() {
 					@Override
 					protected Void call() {
 						try {
 							store_arr = Results.search(final_term, final_location, final_price, final_limit);
-							System.out.println("Calling Task");
 						} catch (IOException ioe) {
 							System.out.println(ioe);
 						}
@@ -118,8 +117,12 @@ public class Main extends Application {
 						Label term_label = new Label("Showing " + store_arr.size() + " results for: " + final_term);
 						results_box_top.getChildren().addAll(term_label, region, return_button);
 						results_box.getChildren().add(results_box_top);
+						System.out.println("added results_box_top");
 
-						store_arr.forEach(s -> results_box.getChildren().addAll(storeToBox(s), new Separator()));
+						store_arr.forEach(s -> {
+							System.out.println(s.getName());
+							results_box.getChildren().addAll(storeToBox(s), new Separator());
+						});
 
 						return null;
 					}
@@ -236,7 +239,6 @@ public class Main extends Application {
 		HBox rating_box = addRating(store.getRating());
 		Label review_label = new Label(store.getReviews() + " reviews");
 		rating_review_box.getChildren().addAll(rating_box, review_label);
-		System.out.println(store.getName());
 		rating_review_box.setAlignment(Pos.BASELINE_LEFT);
 
 		detail_box.getChildren().addAll(name_label, cat_price_box, rating_review_box, address_label);
@@ -324,7 +326,7 @@ public class Main extends Application {
 
 	public static void openBrowser(String url) {
 		try {
-			Desktop.getDesktop().browse(new URI(url));
+			Desktop.getDesktop().browse(new URL(url).toURI());
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		} catch (URISyntaxException uriSyntaxException) {
