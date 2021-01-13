@@ -5,10 +5,6 @@ Clone the project directory. FoodMood can be launched in three ways:
 3. Run the [Main.java](src/main/java/com/foodmood/Main.java) file directly in your terminal/IDE
 
 The search page will open up on launch.  
-<p align="center"> 
-  <img src="../img/search.jpg" width="200">
-</p>
+<img src="../img/search.jpg" align="left" width="500">  
 Set up your preferences and search for anything! Yum!  
-<p align="center">
-  <img src="../img/results.jpg" width="200">
-</p>
+<img src="../img/results.jpg" align="left" width="500">
