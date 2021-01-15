@@ -1,5 +1,6 @@
 # Java: Discovering Its Power
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Assignments and projects for the **Java: Discovering Its Power** course at UC Berkeley Extension.
 ## Assignments
 Some of the simple assignments!
